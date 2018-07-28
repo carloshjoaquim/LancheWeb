@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LancheWeb", "LancheWeb\LancheWeb.csproj", "{94E74EE1-8073-48A0-AC8A-9FA67C1C6EE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LancheWeb", "LancheWeb\LancheWeb.csproj", "{94E74EE1-8073-48A0-AC8A-9FA67C1C6EE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LancheWeb.Tests", "LancheWeb.Tests\LancheWeb.Tests.csproj", "{1D66CF28-89FA-4402-8ACE-46BAF0498D33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LancheWeb.Tests", "LancheWeb.Tests\LancheWeb.Tests.csproj", "{1D66CF28-89FA-4402-8ACE-46BAF0498D33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LancheWeb.DAO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,9 +16,14 @@ namespace LancheWeb
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IConfigurationRoot _configuration;
+
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            _configuration = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json")
+            .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -31,6 +38,9 @@ namespace LancheWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            
+            services.AddDbContext<LancheWebContext>(options => options
+                .UseSqlServer(_configuration.GetConnectionString("LancheWeb")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

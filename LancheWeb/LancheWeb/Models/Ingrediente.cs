@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LancheWeb.Models
 {
+    [Table("Ingredientes")]
     public class Ingrediente
     {
         public int IdIngrediente { get; set; }

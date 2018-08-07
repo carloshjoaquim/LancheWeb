@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace LancheWeb.Models
 {
-    [Table("Lanches")]
     public class Lanche
     {
-        public int IdLanche { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public List<Ingrediente> Ingredientes { get; set; }        
 

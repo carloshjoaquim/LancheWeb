@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LancheWeb.DAO;
+using Estoque.DAO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,14 +16,9 @@ namespace LancheWeb
 {
     public class Startup
     {
-        private IConfigurationRoot _configuration;
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            _configuration = new ConfigurationBuilder()
-            .SetBasePath(env.ContentRootPath)
-            .AddJsonFile("appsettings.json")
-            .Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -38,11 +33,10 @@ namespace LancheWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            
-            services.AddDbContext<LancheWebContext>(options => options
-                .UseSqlServer(_configuration.GetConnectionString("LancheWeb")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<LancheContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("LancheDb")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,5 +63,6 @@ namespace LancheWeb
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+      
     }
 }

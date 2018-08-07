@@ -1,0 +1,32 @@
+﻿@model IList<LancheWeb.Models.Ingrediente>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@Html.RouteLink(item.Nome, "DetalheIngrediente", new { id = item.Id })</td>
+                <td id="preco@(item.Id)">@item.Valor</td>
+                <td id="quantidade@(item.Id)">@item.Quantidade</td>
+            </tr>
+        }
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
+
+
+    </script>
+

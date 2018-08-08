@@ -1,0 +1,17 @@
+﻿<form action="/Ingrediente/Incluir" method="post">
+    @Html.AntiForgeryToken()
+
+    <label for="nome">Nome:</label>
+    <input id="nome" name="ingrediente.Nome" class="form-control" />
+    <br />
+
+    <label for="quantidade">Quantidade:</label>
+    <input id="quantidade" name="ingrediente.Quantidade" class="form-control" />
+
+    <label for="valor">Preço:</label>
+    <input id="valor" name="ingrediente.Valor" class="form-control" />
+    <br />
+
+    <input type="submit" />
+</form>
+

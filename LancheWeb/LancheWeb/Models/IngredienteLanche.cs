@@ -1,15 +1,14 @@
-﻿namespace LancheWeb.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LancheWeb.Models
 {
     public class IngredienteLanche
     {
-        public IngredienteLanche(int idLanche, int idIngrediente)
-        {
-            this.idLanche = idLanche;
-            this.idIngrediente = idIngrediente;
-        }
 
-        public int Id { get; set; }
-        public int idLanche { get; set; }
-        public int idIngrediente { get; set; }
+        public int IdLanche { get; set; }
+        public Lanche Lanche { get; set; }
+
+        public int IdIngrediente { get; set; }
+        public Ingrediente Ingrediente { get; set; }
     }
 }

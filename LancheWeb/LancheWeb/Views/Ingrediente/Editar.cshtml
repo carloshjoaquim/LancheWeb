@@ -1,0 +1,22 @@
+﻿<form action="/Ingrediente/EditaIngrediente" method="post">
+    @Html.AntiForgeryToken()
+
+    <labe> Id</labe>
+    <input id="idP" class="form-control" name="ingrediente.IngredienteId" value=@Model.IngredienteId readonly>
+
+    <label>Nome do Ingrediente</label>
+    <input id="nomeP" name="ingrediente.Nome" class="form-control" value="@Model.Nome" />
+
+    </br>
+
+    <label>Quantidade</label>
+    <input id="quantidade" name="ingrediente.Quantidade" class="form-control" value="@Model.Quantidade" />
+    </br>
+
+    <label>Preço</label>
+    <input id="preco" name="ingrediente.Valor" class="form-control" value="@Model.Valor" />
+    </br>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Ingrediente")'">Voltar</button>
+</form>

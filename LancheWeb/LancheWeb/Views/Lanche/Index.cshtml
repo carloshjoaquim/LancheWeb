@@ -1,12 +1,10 @@
-﻿@model IList<LancheWeb.Models.Ingrediente>
+﻿@model IList<LancheWeb.Models.Lanche>
 
 <table class="table table-hover">
     <thead>
         <tr>
             <th>Id</th>
             <th>Nome</th>
-            <th>Preço</th>
-            <th>Quantidade</th>
             <th></th>
         </tr>
     </thead>
@@ -15,16 +13,14 @@
             @foreach (var item in Model)
             {
         <tr>
-            <td>@item.IngredienteId</td>
-            <td>@Html.RouteLink(item.Nome, "DetalheIngrediente", new { id = item.IngredienteId })</td>
-            <td id="preco@(item.IngredienteId)">@item.Valor</td>
-            <td id="quantidade@(item.IngredienteId)">@item.Quantidade</td>
+            <td>@item.LancheId</td>
+            <td>@Html.RouteLink(item.Nome, "DetalheIngrediente", new { id = item.LancheId })</td>
             <td align="right">
-                <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("Editar", "Ingrediente", @item)'">
+                <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("Editar", "Lanche", @item)'">
                     Editar
                 </button>
 
-                <button type="button" class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("Excluir", "Ingrediente", @item)'">
+                <button type="button" class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("Excluir", "Lanche", @item)'">
                     Excluir
                 </button>
             </td>

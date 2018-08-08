@@ -55,7 +55,32 @@ namespace LancheWeb.Controllers
             return View(ingrediente);
         }
 
-       
+        public ActionResult Editar(Ingrediente ingrediente)
+        {
+            return View(ingrediente);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditaIngrediente(Ingrediente ingrediente)
+        {
+
+            var dao = new IngredientesDAO();
+            dao.Atualiza(ingrediente);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Excluir(Ingrediente ingrediente)
+        {
+            var dao = new IngredientesDAO();
+            dao.Remove(ingrediente);
+
+            return RedirectToAction("Index");
+
+        }
+
+
 
     }
 }

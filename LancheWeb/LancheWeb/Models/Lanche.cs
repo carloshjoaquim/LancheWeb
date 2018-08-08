@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace LancheWeb.Models
 {
     public class Lanche
     {
-        public int Id { get; set; }
+        [Key]
+        public int LancheId { get; set; }
         public string Nome { get; set; }
-        public List<Ingrediente> Ingredientes { get; set; }        
+        public ICollection<IngredienteLanche> IngredienteLanches { get; set; }        
 
 
-        public decimal getValorLanche()
-        {
-            return Ingredientes.Sum(i => i.Valor);
-        }
+        
     }
 }

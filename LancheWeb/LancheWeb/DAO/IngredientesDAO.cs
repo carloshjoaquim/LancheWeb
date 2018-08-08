@@ -24,7 +24,7 @@ namespace LancheWeb.DAO
         {
             using (var contexto = new LancheContext())
             {
-                return contexto.Ingredientes.Include("Ingredientes").ToList();
+                return contexto.Ingredientes.ToList();
             }
         }
 
@@ -32,8 +32,8 @@ namespace LancheWeb.DAO
         {
             using (var contexto = new LancheContext())
             {
-                return contexto.Ingredientes.Include("Ingredientes")
-                    .Where(p => p.Id == id)
+                return contexto.Ingredientes
+                    .Where(p => p.IngredienteId == id)
                     .FirstOrDefault();
             }
         }
@@ -43,6 +43,15 @@ namespace LancheWeb.DAO
             using (var contexto = new LancheContext())
             {
                 contexto.Entry(ingrediente).State = EntityState.Modified;
+                contexto.SaveChanges();
+            }
+        }
+
+        public void Remove(Ingrediente ingrediente)
+        {
+            using (var contexto = new LancheContext())
+            {
+                contexto.Entry(ingrediente).State = EntityState.Deleted;
                 contexto.SaveChanges();
             }
         }

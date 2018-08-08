@@ -1,0 +1,21 @@
+﻿<form action="/Lanche/EditaLanche" method="post">
+    @Html.AntiForgeryToken()
+
+    <labe> Id</labe>
+    <input id="idP" class="form-control" name="lanche.LancheId" value=@Model.LancheId readonly>
+
+    <label>Nome</label>
+    <input id="nomeP" name="lanche.Nome" class="form-control" value="@Model.Nome" />
+
+    </br>
+
+    @foreach (var ingrediente in Model.Ingredientes)
+    {
+     <td id="preco@(ingrediente.Nome)">@ingrediente.Nome</td>
+
+    }
+
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Ingrediente")'">Voltar</button>
+</form>

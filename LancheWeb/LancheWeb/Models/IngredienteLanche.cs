@@ -10,5 +10,6 @@ namespace LancheWeb.Models
 
         public int IdIngrediente { get; set; }
         public Ingrediente Ingrediente { get; set; }
+        public int Quantidade { get; set; }
     }
 }

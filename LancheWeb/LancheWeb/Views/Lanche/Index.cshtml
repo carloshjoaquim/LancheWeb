@@ -14,7 +14,7 @@
             {
         <tr>
             <td>@item.LancheId</td>
-            <td>@Html.RouteLink(item.Nome, "DetalheIngrediente", new { id = item.LancheId })</td>
+            <td>@item.Nome</td>
             <td align="right">
                 <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("Editar", "Lanche", @item)'">
                     Editar
@@ -29,7 +29,7 @@
         </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Cadastrar", "Ingrediente")'">Novo</button>
+    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Cadastrar", "Lanche")'">Novo</button>
 
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
     <script type="text/javascript">

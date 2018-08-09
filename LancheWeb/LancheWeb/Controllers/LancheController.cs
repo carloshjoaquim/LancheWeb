@@ -4,48 +4,49 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LancheWeb.Controllers
 {
-    public class IngredienteController : Controller
+    public class LancheController : Controller
     {
         // GET: Produto
-        [Route("ingredientes", Name = "ListaIngredientes")]
+        [Route("lanche", Name = "ListaLanches")]
         public ActionResult Index()
         {
-            var dao = new IngredientesDAO();
-            var ingredientes = dao.Lista();
-            ViewBag.Ingredientes = ingredientes;
+            var dao = new LanchesDAO();
+            var lanches = dao.Lista();
+            ViewBag.Lanches = lanches;
 
-            return View(ingredientes);
+            return View(lanches);
         }
 
         public ActionResult Cadastrar()
         {
-            ViewBag.Ingredientes = new Ingrediente();
+            var dao = new IngredientesDAO();
+            ViewBag.Ingredientes = dao.Lista();
+            ViewBag.Lanches = new Lanche();
+
 
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Incluir(Ingrediente ingrediente)
+        public JsonResult Incluir(Lanche lanche)
         {
        
-
             if (ModelState.IsValid)
             {
-                IngredientesDAO dao = new IngredientesDAO();
-                dao.Adiciona(ingrediente);
+                var dao = new LanchesDAO();
+                dao.Adiciona(lanche);
 
-                return RedirectToAction("Index");
+                return Json("Adicionado");
             }
             else
             {
-                ViewBag.Ingrediente = ingrediente;
+                ViewBag.Lanche = lanche;
 
-                return View("Cadastrar");
+                return Json("Erro");
             }
         }
 
-        [Route("detalhe/{id}", Name = "DetalheIngrediente")]
+        [Route("detalhe/{id}", Name = "DetalheLanche")]
         public ActionResult Detalhe(int id)
         {
             var ingrediente = new IngredientesDAO().BuscaPorId(id);
@@ -70,10 +71,10 @@ namespace LancheWeb.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Excluir(Ingrediente ingrediente)
+        public ActionResult Excluir(Lanche lanche)
         {
-            var dao = new IngredientesDAO();
-            dao.Remove(ingrediente);
+            var dao = new LanchesDAO();
+            dao.Remove(lanche);
 
             return RedirectToAction("Index");
 

@@ -1,34 +1,16 @@
 ﻿<form id="form">
     @Html.AntiForgeryToken()
 
-    <label for="nome">Nome:</label>
+    <label for="nome">Nome Lanche:</label>
     <input id="nome" name="lanche.Nome" class="form-control" />
     <br />
-    <div id="addIngredientes">
-        @foreach (var item in ViewBag.Ingredientes)
-        {
-            <div class="col-lg-2">
-                @item.Nome
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="" onclick="Decrement(quantity@(item.IngredienteId))">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </button>
-                    </span>
-                    <input type="text" id="quantity@(item.IngredienteId)" name="quantity" class="form-control input-number" value="0" min="0" max="99">
-                    <span class="input-group-btn">
-                        <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="" onclick="Increment(quantity@(item.IngredienteId))">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </span>
-                </div>
-            </div>
-        }
-    </div>
-
-    <br />
 </form>
-<br/><br />
+
+<label for="ingrediente">Ingredientes:</label>
+
+@Html.Partial("_IngredienteLanche.cshtml")
+
+
 <div id="alert" class="alert alert-success" role="alert" style="visibility:hidden"> </div>
 
 <button class="btn btn-primary" onclick="Cadastrar()">Salvar</button>
@@ -37,12 +19,12 @@
 <script type="text/javascript">
 
     function Increment(id) {
-        var quantity = parseInt($(id).val());
+        let quantity = parseInt($(id).val());
         $(id).val(quantity + 1);
     }
 
     function Decrement(id) {
-        var quantity = parseInt($(id).val());
+        let quantity = parseInt($(id).val());
         if (quantity > 0) {
             $(id).val(quantity - 1);
         }
@@ -50,7 +32,7 @@
 
     function Cadastrar()
     {
-        var url = "@Url.Action("Incluir", "Lanche")";
+        const url = "@Url.Action("Incluir", "Lanche")";
         console.log($('#form').serialize());
         $.ajax({
             type: "POST",
@@ -58,8 +40,8 @@
             dataType: 'json',
             data: $('#form').serialize(),
             cache: false,
-            success: function() {
-                location.href = '@Url.Action("Index", "Lanche")';
+            success: function (response) {
+                CadastrarIngredienteLanche(response.lancheId);
              },
             error: function(xhr, textStatus, errorThrown) {
                 erro()
@@ -67,6 +49,8 @@
         });
 
     }
+
+    
 
     function erro() {
         $('#alert').css("visibility", "visible");

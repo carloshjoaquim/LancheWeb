@@ -1,0 +1,86 @@
+﻿
+
+<form id="formI">
+
+    <div id="addIngredientes">
+        @foreach (var item in ViewBag.Ingredientes)
+        {
+            <input type="text" name="IdIngrediente" class="form-control input-number" value="@item.IngredienteId" style="visibility:hidden">
+            <input type="text" id="IdLanches" name="IdLanche" class="form-control input-number" style="visibility:hidden">
+
+            <div class="col-lg-2">
+                @item.Nome
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="" onclick="Decrement(quantity@(item.IngredienteId))">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </span>
+                    <input type="text" id="quantity@(item.IngredienteId)" name="Quantidade" class="form-control input-number" value="0" min="0" max="99">
+                    <span class="input-group-btn">
+                        <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="" onclick="Increment(quantity@(item.IngredienteId))">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <br />
+</form>
+<br /><br />
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+
+    function Increment(id) {
+        let quantity = parseInt($(id).val());
+        $(id).val(quantity + 1);
+
+
+
+    }
+
+    function Decrement(id) {
+        let quantity = parseInt($(id).val());
+        if (quantity > 0) {
+            $(id).val(quantity - 1);
+        }
+    }
+
+    function CadastrarIngredienteLanche(lancheId) {
+
+        $('#IdLanches').val(lancheId);
+        $('#IdLanches').text(lancheId);
+        var arrayI = $('#formI').serializeArray();
+
+        arrayI.forEach(
+            var elem = { IngredienteId = , LancheId =lancheId , Quantidade = }
+
+            )
+
+        const url = "@Url.Action("Incluir", "IngredienteLanche")";
+        console.log(elem);
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ ingrediente: $('#formI').serializeArray() }),
+            cache: false,
+            success: function () {
+                location.href = '@Url.Action("Index", "Lanche")'
+             },
+            error: function(xhr, textStatus, errorThrown) {
+                erro()
+             }
+        });
+
+    }
+
+    function onListMap(idx, el) {
+        return el.id + '=' + $(el).text(); // Use '.html()' if needed
+    };
+
+
+</script>

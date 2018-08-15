@@ -1,6 +1,7 @@
 ﻿using LancheWeb.DAO;
 using LancheWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace LancheWeb.Controllers
 {
@@ -36,7 +37,8 @@ namespace LancheWeb.Controllers
                 var dao = new LanchesDAO();
                 dao.Adiciona(lanche);
 
-                return Json("Adicionado");
+                return Json(new { lanche.LancheId });
+                
             }
             else
             {

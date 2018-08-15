@@ -52,21 +52,36 @@
 
         $('#IdLanches').val(lancheId);
         $('#IdLanches').text(lancheId);
-        var arrayI = $('#formI').serializeArray();
+        let arrayI = $('#formI').serializeArray();
+        var ingredientes = [];
 
-        arrayI.forEach(
-            var elem = { IngredienteId = , LancheId =lancheId , Quantidade = }
 
-            )
+        arrayI.forEach(function (value, key) {
+            let elem = new Object();
+            if ((key%3 == 0))
+            {
+                let qnt = arrayI[key + 2].value;
+                if (qnt > 0) {
+                    elem = {
+                        IdIngrediente: parseInt(arrayI[key].value),
+                        IdLanche: lancheId,
+                        Quantidade: parseInt(qnt),
+                    };
+                    ingredientes.push(elem);
+                }
+            }
+        }
+        )
 
+        let dados = JSON.stringify({ ingredientes })
+        console.log(JSON.stringify(ingredientes));
         const url = "@Url.Action("Incluir", "IngredienteLanche")";
-        console.log(elem);
         $.ajax({
             type: "POST",
             url: url,
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({ ingrediente: $('#formI').serializeArray() }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(ingredientes),
             cache: false,
             success: function () {
                 location.href = '@Url.Action("Index", "Lanche")'

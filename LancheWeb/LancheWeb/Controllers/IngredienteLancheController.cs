@@ -1,6 +1,7 @@
 ﻿using LancheWeb.DAO;
 using LancheWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace LancheWeb.Controllers
@@ -9,7 +10,7 @@ namespace LancheWeb.Controllers
     {
 
         [HttpPost]
-        public ActionResult Incluir(IEnumerable<IngredienteLanche> ingredientes)
+        public ActionResult Incluir([FromBody] IEnumerable<IngredienteLanche> ingredientes)
         {
 
             foreach (var il in ingredientes)

@@ -2,6 +2,7 @@
 using LancheWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LancheWeb.Controllers
 {
@@ -48,18 +49,29 @@ namespace LancheWeb.Controllers
             }
         }
 
-        [Route("detalhe/{id}", Name = "DetalheLanche")]
-        public ActionResult Detalhe(int id)
-        {
-            var ingrediente = new IngredientesDAO().BuscaPorId(id);
-            ViewBag.Ingrediente = ingrediente;
 
-            return View(ingrediente);
-        }
-
-        public ActionResult Editar(Ingrediente ingrediente)
+        public ActionResult Editar(Lanche lanche)
         {
-            return View(ingrediente);
+            var ingredientes = new IngredientesDAO().Lista();
+            var ingredientesLanche = new IngredienteLancheDAO().BuscaPorLancheId(lanche.LancheId);
+            var listIngredientes = new List<Ingrediente>();
+
+            foreach (var item in ingredientes)
+            {
+                listIngredientes.Add(
+                                 new Ingrediente
+                                 {
+                                     IngredienteId = item.IngredienteId,
+                                     Nome = item.Nome,
+                                     Valor = item.Valor,
+                                     Quantidade = ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).FirstOrDefault()?.Quantidade
+                                 }
+                    );
+            }
+
+            ViewBag.Ingredientes = listIngredientes;
+
+            return View(lanche);
         }
 
         [HttpPost]

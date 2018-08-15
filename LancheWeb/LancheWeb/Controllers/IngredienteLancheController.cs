@@ -10,7 +10,7 @@ namespace LancheWeb.Controllers
     {
 
         [HttpPost]
-        public ActionResult Incluir([FromBody] IEnumerable<IngredienteLanche> ingredientes)
+        public JsonResult Incluir([FromBody] IEnumerable<IngredienteLanche> ingredientes)
         {
 
             foreach (var il in ingredientes)
@@ -18,9 +18,8 @@ namespace LancheWeb.Controllers
                 var dao = new IngredienteLancheDAO();
                 dao.Adiciona(il);
             }
-            return RedirectToAction("Index");
-            
-            
+            return Json("OK");
+
         }
 
         [Route("detalhe/{id}", Name = "DetalheIngrediente")]

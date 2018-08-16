@@ -20,7 +20,7 @@ namespace LancheWeb.DAO
             }
         }
 
-        public IList<Ingrediente> Lista()
+        public IEnumerable<Ingrediente> Lista()
         {
             using (var contexto = new LancheContext())
             {

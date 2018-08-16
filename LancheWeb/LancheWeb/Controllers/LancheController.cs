@@ -32,14 +32,14 @@ namespace LancheWeb.Controllers
         [HttpPost]
         public JsonResult Incluir(Lanche lanche)
         {
-       
+
             if (ModelState.IsValid)
             {
                 var dao = new LanchesDAO();
                 dao.Adiciona(lanche);
 
                 return Json(new { lanche.LancheId });
-                
+
             }
             else
             {
@@ -64,10 +64,10 @@ namespace LancheWeb.Controllers
                                      IngredienteId = item.IngredienteId,
                                      Nome = item.Nome,
                                      Valor = item.Valor,
-                                     Quantidade = ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).
-                                                  FirstOrDefault() != null ? 
-                                                  ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).
-                                                  FirstOrDefault().Quantidade :
+                                     Quantidade = ingredientesLanche.
+                                                  FirstOrDefault(x => x.IdIngrediente == item.IngredienteId) != null ?
+                                                  ingredientesLanche.
+                                                  FirstOrDefault(x => x.IdIngrediente == item.IngredienteId).Quantidade :
                                                   0
                                  }
                     );

@@ -51,17 +51,5 @@ namespace LancheWeb.Controllers
 
             return Json("OK");
         }
-
-        public ActionResult Excluir(Ingrediente ingrediente)
-        {
-            var dao = new IngredientesDAO();
-            dao.Remove(ingrediente);
-
-            return RedirectToAction("Index");
-
-        }
-
-
-
     }
 }

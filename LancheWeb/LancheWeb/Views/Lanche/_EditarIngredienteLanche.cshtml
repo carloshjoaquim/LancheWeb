@@ -36,15 +36,13 @@
             let elem = new Object();
             if ((key%2 == 0))
             {
-                let qnt = arrayI[key + 1].value;
-                if (qnt > 0) {
+                let qnt = arrayI[key + 1].value;                
                     elem = {
                         IdIngrediente: parseInt(arrayI[key].value),
                         IdLanche: lancheId,
                         Quantidade: parseInt(qnt),
                     };
-                    ingredientes.push(elem);
-                }
+                    ingredientes.push(elem);                
             }
         }
         )

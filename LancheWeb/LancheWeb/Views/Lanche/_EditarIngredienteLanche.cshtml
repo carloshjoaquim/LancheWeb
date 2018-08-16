@@ -1,0 +1,71 @@
+﻿<form id="formI">
+    <div id="addIngredientes">
+        @foreach (var item in ViewBag.Ingredientes)
+        {
+            <input type="text" name="IdIngrediente" class="form-control input-number" value="@item.IngredienteId" style="visibility:hidden">
+            <div class="col-lg-2">
+                @item.Nome
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="" onclick="Decrement(quantity@(item.IngredienteId))">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </span>
+                    <input type="text" id="quantity@(item.IngredienteId)" name="Quantidade" class="form-control input-number" value="@item.Quantidade" min="0" max="99">
+                    <span class="input-group-btn">
+                        <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="" onclick="Increment(quantity@(item.IngredienteId))">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+</form>
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="~/js/site.js"></script>
+<script type="text/javascript">
+
+    function EditarIngredienteLanche(lancheId) {
+
+        var arrayI = $('#formI').serializeArray();
+        let ingredientes = [];
+        console.log(arrayI);
+        arrayI.forEach(function (value, key) {
+            let elem = new Object();
+            if ((key%2 == 0))
+            {
+                let qnt = arrayI[key + 1].value;
+                if (qnt > 0) {
+                    elem = {
+                        IdIngrediente: parseInt(arrayI[key].value),
+                        IdLanche: lancheId,
+                        Quantidade: parseInt(qnt),
+                    };
+                    ingredientes.push(elem);
+                }
+            }
+        }
+        )
+
+        const url = "@Url.Action("EditaIngredienteLanche", "IngredienteLanche")";
+        $.ajax({
+            type: "PUT",
+            url: url,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(ingredientes),
+            cache: false,
+            success: function () {
+                location.href = '@Url.Action("Index", "Lanche")'
+             },
+            error: function(xhr, textStatus, errorThrown) {
+                erro()
+             }
+        });
+
+    }
+
+
+</script>

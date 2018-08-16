@@ -1,25 +1,42 @@
-﻿<form action="/Lanche/EditaLanche" method="post">
+﻿<form action="/Lanche/EditaLanche" method="post" id="form">
     @Html.AntiForgeryToken()
+    <input id="lancheI" name="lanche.LancheId" class="form-control" value="@Model.LancheId" style="visibility:hidden" />
 
-    <labe> Id</labe>
-    <input id="idP" class="form-control" name="lanche.LancheId" value=@Model.LancheId readonly>
-
-    <label>Nome</label>
+    <label>Nome Lanche</label>
     <input id="nomeP" name="lanche.Nome" class="form-control" value="@Model.Nome" />
-
-    <label for="ingrediente">Ingredientes:</label>
-
-    @Html.Partial("_IngredienteLanche.cshtml")
-
 </form>
+
+<label for="ingrediente">Ingredientes:</label>
+    @Html.Partial("_EditarIngredienteLanche.cshtml")
 
 <div id="alert" class="alert alert-success" role="alert" style="visibility:hidden"> </div>
 
-<button class="btn btn-primary" onclick="Cadastrar()">Salvar</button>
-<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Ingrediente")'">Voltar</button>
+<button class="btn btn-primary" onclick="Editar()">Salvar</button>
+<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Lanche")'">Voltar</button>
 
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="~/js/site.js"></script>
 <script type="text/javascript">
+
+   function Editar()
+    {
+        const url = "@Url.Action("EditaLanche", "Lanche")";
+        console.log($('#form').serialize());
+        $.ajax({
+            type: "PUT",
+            url: url,
+            dataType: 'json',
+            data: $('#form').serialize(),
+            cache: false,
+            success: function (response) {
+                EditarIngredienteLanche(response.lancheId);
+             },
+            error: function(xhr, textStatus, errorThrown) {
+                erro()
+             }
+        });
+
+    }
+
 
 </script>

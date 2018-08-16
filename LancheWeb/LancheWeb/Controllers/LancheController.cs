@@ -53,7 +53,7 @@ namespace LancheWeb.Controllers
         public ActionResult Editar(Lanche lanche)
         {
             var ingredientes = new IngredientesDAO().Lista();
-            var ingredientesLanche = new IngredienteLancheDAO().BuscaPorLancheId(lanche.LancheId);
+            var ingredientesLanche = getIngredientesLanche(lanche.LancheId);
             var listIngredientes = new List<Ingrediente>();
 
             foreach (var item in ingredientes)
@@ -64,7 +64,11 @@ namespace LancheWeb.Controllers
                                      IngredienteId = item.IngredienteId,
                                      Nome = item.Nome,
                                      Valor = item.Valor,
-                                     Quantidade = ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).FirstOrDefault()?.Quantidade
+                                     Quantidade = ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).
+                                                  FirstOrDefault() != null ? 
+                                                  ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).
+                                                  FirstOrDefault().Quantidade :
+                                                  0
                                  }
                     );
             }
@@ -74,27 +78,37 @@ namespace LancheWeb.Controllers
             return View(lanche);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditaIngrediente(Ingrediente ingrediente)
+        [HttpPut]
+        public JsonResult EditaLanche(Lanche lanche)
         {
 
-            var dao = new IngredientesDAO();
-            dao.Atualiza(ingrediente);
+            var dao = new LanchesDAO();
+            dao.Atualiza(lanche);
 
-            return RedirectToAction("Index");
+            return Json(new { lanche.LancheId });
         }
 
         public ActionResult Excluir(Lanche lanche)
         {
-            var dao = new LanchesDAO();
-            dao.Remove(lanche);
+            var ingredientesLanche = getIngredientesLanche(lanche.LancheId);
+            var ildao = new IngredienteLancheDAO();
+            var lanchedao = new LanchesDAO();
 
+            foreach (var item in ingredientesLanche)
+            {
+                ildao.Remove(item);
+            }
+
+            lanchedao.Remove(lanche);
             return RedirectToAction("Index");
 
         }
 
 
+        private List<IngredienteLanche> getIngredientesLanche(int idLanche)
+        {
+            return new IngredienteLancheDAO().BuscaPorLancheId(idLanche);
+        }
 
     }
 }

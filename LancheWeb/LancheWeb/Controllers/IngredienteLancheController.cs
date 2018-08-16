@@ -36,15 +36,20 @@ namespace LancheWeb.Controllers
             return View(ingrediente);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditaIngrediente(Ingrediente ingrediente)
+        [HttpPut]
+        public JsonResult EditaIngredienteLanche([FromBody]IEnumerable<IngredienteLanche> ingredientes)
         {
 
-            var dao = new IngredientesDAO();
-            dao.Atualiza(ingrediente);
+            var dao = new IngredienteLancheDAO();
+            foreach(var item in ingredientes)
+            {
+                if (dao.BuscaPorId(item.IdIngrediente, item.IdLanche) != null)
+                    dao.Atualiza(item);
+                else
+                    dao.Adiciona(item);
+            }
 
-            return RedirectToAction("Index");
+            return Json("OK");
         }
 
         public ActionResult Excluir(Ingrediente ingrediente)

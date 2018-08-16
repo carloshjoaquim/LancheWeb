@@ -11,7 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Lanche\_IngredienteLanche.cshtml">
+    <Content Update="Views\Lanche\_EditarIngredienteLanche.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Lanche\_CadastrarIngredienteLanche.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Lanche\Cadastrar.cshtml">

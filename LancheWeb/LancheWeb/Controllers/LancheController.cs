@@ -39,7 +39,6 @@ namespace LancheWeb.Controllers
                 dao.Adiciona(lanche);
 
                 return Json(new { lanche.LancheId });
-
             }
             else
             {

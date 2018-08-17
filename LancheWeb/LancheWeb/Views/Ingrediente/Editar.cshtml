@@ -1,4 +1,4 @@
-﻿<form action="/Ingrediente/EditaIngrediente" method="post">
+﻿<form id="form">
     @Html.AntiForgeryToken()
 
     <labe> Id</labe>
@@ -17,6 +17,31 @@
     <input id="preco" name="ingrediente.Valor" class="form-control" value="@Model.Valor" />
     </br>
 
-    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="submit" class="btn btn-primary" onclick="Editar()">Salvar</button>
     <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Ingrediente")'">Voltar</button>
 </form>
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="~/js/site.js"></script>
+<script type="text/javascript">
+
+   function Editar()
+    {
+        const url = "@Url.Action("EditaIngrediente", "Ingrediente")";
+        console.log($('#form').serialize());
+        $.ajax({
+            type: "PUT",
+            url: url,
+            dataType: 'json',
+            data: $('#form').serialize(),
+            cache: false,
+            success: function (response) {
+                
+             },
+            error: function(xhr, textStatus, errorThrown) {
+                erro()
+             }
+        });
+
+    }
+
+</script>

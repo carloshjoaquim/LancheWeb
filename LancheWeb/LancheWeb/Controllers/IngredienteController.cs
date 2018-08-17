@@ -59,7 +59,7 @@ namespace LancheWeb.Controllers
             return View(ingrediente);
         }
 
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public ActionResult EditaIngrediente(Ingrediente ingrediente)
         {

@@ -28,6 +28,33 @@ namespace LancheWeb.DAO
             }
         }
 
+        public IList<Lanche> ListaCompleto()
+        {
+            using (var context = new LancheContext())
+            {
+                var lanches = context.Lanches.ToList();
+                var listLanches = new List<Lanche>();
+
+                foreach (var lanche in lanches)
+                {                    
+                    lanche.IngredienteLanches = context.IngredienteLanche.Where(i => i.IdLanche == lanche.LancheId).ToList();
+                    listLanches.Add(lanche);
+                }
+
+                foreach (var item in listLanches)
+                {
+                    foreach (var ingrediente in item.IngredienteLanches)
+                    {
+                        var ingredienteBD = context.Ingredientes.Where(i => i.IngredienteId == ingrediente.IdIngrediente).FirstOrDefault() ?? new Ingrediente();
+                        ingrediente.Ingrediente.Valor = ingredienteBD.Valor;
+                    }
+                }
+
+                return listLanches;
+            }
+
+        }
+
         public Lanche BuscaPorId(int id)
         {
             using (var contexto = new LancheContext())

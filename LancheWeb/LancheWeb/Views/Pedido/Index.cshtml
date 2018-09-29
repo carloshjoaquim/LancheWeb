@@ -1,0 +1,32 @@
+﻿@model IList<LancheWeb.Models.Lanche>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.GetValorLanche()</td>
+                <td align="right">
+                    <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("AlteraLanche", "Pedido", @item)'">
+                        Selecionar
+                    </button>
+                </td>
+            </tr>
+        }
+            </tr>
+        </tbody>
+    </table>
+   
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
+    </script>
+

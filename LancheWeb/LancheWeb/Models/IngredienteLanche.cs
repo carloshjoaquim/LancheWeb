@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace LancheWeb.Models
 {
@@ -13,9 +11,9 @@ namespace LancheWeb.Models
 
         [JsonProperty(PropertyName = "IdIngrediente")]
         public int IdIngrediente { get; set; }
-
         [JsonProperty(PropertyName = "Ingrediente")]
         public Ingrediente Ingrediente { get; set; }
+
         [JsonProperty(PropertyName = "Quantidade")]
         public int Quantidade { get; set; }
     }

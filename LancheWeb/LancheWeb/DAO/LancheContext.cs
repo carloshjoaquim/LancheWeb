@@ -1,7 +1,5 @@
 ﻿using LancheWeb.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Configuration;
 
 namespace Estoque.DAO
 {

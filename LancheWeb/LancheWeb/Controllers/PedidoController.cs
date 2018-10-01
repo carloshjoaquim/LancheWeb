@@ -1,6 +1,7 @@
 ﻿using LancheWeb.DAO;
 using LancheWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,16 +9,16 @@ namespace LancheWeb.Controllers
 {
     public class PedidoController : Controller
     {
-       /*
-         1. Exibir lanches do cardápio.
-         2. Selecionar Lanche.
-         3. Alterar ingredientes Lanche.
-            3.1. Incluir novo Lanche.
-         4. Finalizar Pedido.
-       */
+        /*
+          1. Exibir lanches do cardápio.
+          2. Selecionar Lanche.
+          3. Alterar ingredientes Lanche.
+             3.1. Incluir novo Lanche.
+          4. Finalizar Pedido.
+        */
 
 
-        
+
         public ActionResult Index()
         {
             // 1. Exibir Cardábio de Lanches.
@@ -28,13 +29,44 @@ namespace LancheWeb.Controllers
             return View(lanches);
         }
 
+        public ActionResult DetalheLanche(Lanche lanche)
+        {
+            // 2.Selecionar Lanche
+            var dao = new IngredienteLancheDAO();
+
+            lanche.IngredienteLanches = dao.BuscaPorLancheId(lanche.LancheId);
+
+            return View(lanche);
+        }
+
+        public ActionResult ResumoPedido(Lanche lanche)
+        {
+            var model = new PedidoViewModel();
+            var dao = new IngredienteLancheDAO();
+            lanche.IngredienteLanches = dao.BuscaPorLancheId(lanche.LancheId);
+            model.Promocoes = VerificaPromocao(lanche);
+
+            model.Nome = lanche.Nome;
+            model.ValorLanche = lanche.Valor;
+            model.Ingredientes = lanche.IngredienteLanches.Select(x => x.Ingrediente).ToList();
+            model.ValorPedido = model.ValorLanche - model.Promocoes.Sum(x => x.Desconto);
+
+
+
+            return View(model);
+        }      
 
         public ActionResult EscolherIngrediente(Lanche lanche)
         {
+
+            // 3.Alterar ingredientes Lanche.
+
             ViewBag.Lanche = lanche;
 
-            //var dao = IngredienteLancheDAO();
-            
+            var dao = new IngredientesDAO();
+            var ingredientesDisponiveis = dao.Lista().Where(i => i.Quantidade > 0);
+
+
 
             return View();
         }
@@ -42,14 +74,14 @@ namespace LancheWeb.Controllers
         [HttpPost]
         public JsonResult Incluir(Lanche lanche)
         {
-       
+
             if (ModelState.IsValid)
             {
                 var dao = new LanchesDAO();
                 dao.Adiciona(lanche);
 
                 return Json(new { lanche.LancheId });
-                
+
             }
             else
             {
@@ -58,7 +90,7 @@ namespace LancheWeb.Controllers
                 return Json("Erro");
             }
         }
-        
+
         public ActionResult Editar(Lanche lanche)
         {
             var ingredientes = new IngredientesDAO().Lista();
@@ -74,7 +106,7 @@ namespace LancheWeb.Controllers
                                      Nome = item.Nome,
                                      Valor = item.Valor,
                                      Quantidade = ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).
-                                                  FirstOrDefault() != null ? 
+                                                  FirstOrDefault() != null ?
                                                   ingredientesLanche.Where(x => x.IdIngrediente == item.IngredienteId).
                                                   FirstOrDefault().Quantidade :
                                                   0
@@ -117,6 +149,44 @@ namespace LancheWeb.Controllers
         private List<IngredienteLanche> getIngredientesLanche(int idLanche)
         {
             return new IngredienteLancheDAO().BuscaPorLancheId(idLanche);
+        }
+
+        private List<Promocao> VerificaPromocao(Lanche lanche)
+        {
+            var promocoes = new List<Promocao>();
+
+            var muitaCarne = (lanche.IngredienteLanches.Where(x => x.Ingrediente.Nome.Contains("Carne")).FirstOrDefault().Quantidade / 3) * 2;
+            var muitoQueijo = (lanche.IngredienteLanches.Where(x => x.Ingrediente.Nome.Contains("Queijo")).FirstOrDefault().Quantidade / 3) * 2;
+            var ligth = lanche.IngredienteLanches.Any(x => x.Ingrediente.Nome.Contains("Alface")) && !lanche.IngredienteLanches.Any(x => x.Ingrediente.Nome.Contains("Bacon"));
+
+            if (muitaCarne > 0)
+            {
+                promocoes.Add(new Promocao
+                {
+                    NomePromocao = "Muita Carne",
+                    Desconto = muitaCarne * lanche.IngredienteLanches.Where(x => x.Ingrediente.Nome.Contains("Carne")).FirstOrDefault().Ingrediente.Valor
+                });
+            }
+
+            if (muitoQueijo > 0)
+            {
+                promocoes.Add(new Promocao
+                {
+                    NomePromocao = "Muito Queijo",
+                    Desconto = muitaCarne * lanche.IngredienteLanches.Where(x => x.Ingrediente.Nome.Contains("Queijo")).FirstOrDefault().Ingrediente.Valor
+                });
+            }
+
+            if (muitoQueijo > 0)
+            {
+                promocoes.Add(new Promocao
+                {
+                    NomePromocao = "Light",
+                    Desconto = lanche.Valor * (decimal)0.10
+                });
+            }
+
+            return promocoes;
         }
 
     }

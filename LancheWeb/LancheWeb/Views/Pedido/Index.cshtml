@@ -16,7 +16,7 @@
                 <td>@item.Nome</td>
                 <td>@item.GetValorLanche()</td>
                 <td align="right">
-                    <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("AlteraLanche", "Pedido", @item)'">
+                    <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("DetalheLanche", "Pedido", item)'">
                         Selecionar
                     </button>
                 </td>

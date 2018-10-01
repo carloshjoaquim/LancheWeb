@@ -1,0 +1,25 @@
+﻿@model LancheWeb.Models.Lanche
+
+<div id="conteudoPedido">
+
+    Lanche:
+    <label for="nomeLanche">@Model.Nome</label>
+
+    <br />
+    <label for="nomeLanche">Ingredientes:</label>
+    <ul class="list-group">
+        @foreach (var item in Model.IngredienteLanches)
+        {
+            <li class="list-group-item">@item.Quantidade x  @item.Ingrediente.Nome </li>
+        }
+    </ul>
+    <br />
+
+    <label for="nomeLanche">@Model.Valor</label>
+
+    <br>
+
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("ResumoPedido", "Pedido", Model)'">Avançar</button>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("DetalheLanche", "Pedido", Model)'">Adicionar Ingredientes</button>
+
+</div>

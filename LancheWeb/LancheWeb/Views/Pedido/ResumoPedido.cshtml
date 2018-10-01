@@ -1,0 +1,15 @@
+﻿@model LancheWeb.Models.PedidoViewModel
+
+Lanche: @Model.Nome
+
+Valor Lanche: @Model.ValorLanche
+
+Descontos:
+<ul class="list-group">
+    @foreach (var desconto in Model.Promocoes)
+    {
+        <li class="list-group-item">@desconto.NomePromocao  ---  @desconto.Desconto </li>
+    }
+</ul>
+
+Valor Pedido: @Model.ValorPedido

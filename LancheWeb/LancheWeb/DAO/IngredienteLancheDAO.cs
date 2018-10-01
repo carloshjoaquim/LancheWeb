@@ -36,8 +36,16 @@ namespace LancheWeb.DAO
         {
             using (var contexto = new LancheContext())
             {
-                return contexto.IngredienteLanche
+                var ingredienteDAO = new IngredientesDAO();
+                var listaIngredienteLanche =  contexto.IngredienteLanche
                     .Where(p => p.IdLanche == idLanche).ToList();
+
+                foreach (var item in listaIngredienteLanche)
+                {
+                    item.Ingrediente = ingredienteDAO.BuscaPorId(item.IdIngrediente);
+                }
+
+                return listaIngredienteLanche;
             }
         }
 

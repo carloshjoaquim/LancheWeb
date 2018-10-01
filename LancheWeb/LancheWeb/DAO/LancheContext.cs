@@ -14,6 +14,10 @@ namespace Estoque.DAO
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Lanche>()
+                .Ignore(l => l.Valor);            
+                
+
             modelBuilder.Entity<IngredienteLanche>()
                 .HasKey(il => new {il.IdLanche, il.IdIngrediente });
 

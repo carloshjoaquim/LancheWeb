@@ -5,9 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DAO\**" />
+    <Compile Remove="Models\**" />
+    <Content Remove="DAO\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="DAO\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="DAO\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LancheWeb.Business\LancheWeb.Business.csproj" />
+    <ProjectReference Include="..\LancheWeb.Models\LancheWeb.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

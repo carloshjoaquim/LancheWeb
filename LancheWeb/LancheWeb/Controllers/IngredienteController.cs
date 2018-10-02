@@ -1,5 +1,5 @@
-﻿using LancheWeb.DAO;
-using LancheWeb.Models;
+﻿using LancheWeb.Business.BLL;
+using LancheWeb.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LancheWeb.Controllers
@@ -10,13 +10,12 @@ namespace LancheWeb.Controllers
         [Route("ingredientes", Name = "ListaIngredientes")]
         public ActionResult Index()
         {
-            var dao = new IngredientesDAO();
-            var ingredientes = dao.Lista();
+            var ingredientes = IngredienteBLL.ListaIngredientes();
             ViewBag.Ingredientes = ingredientes;
 
             return View(ingredientes);
         }
-
+    
         public ActionResult Cadastrar()
         {
             ViewBag.Ingredientes = new Ingrediente();
@@ -28,12 +27,10 @@ namespace LancheWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Incluir(Ingrediente ingrediente)
         {
-       
-
+      
             if (ModelState.IsValid)
             {
-                IngredientesDAO dao = new IngredientesDAO();
-                dao.Adiciona(ingrediente);
+                IngredienteBLL.AdicionaIngrediente(ingrediente);
 
                 return RedirectToAction("Index");
             }
@@ -48,7 +45,7 @@ namespace LancheWeb.Controllers
         [Route("detalhe/{id}", Name = "DetalheIngrediente")]
         public ActionResult Detalhe(int id)
         {
-            var ingrediente = new IngredientesDAO().BuscaPorId(id);
+            var ingrediente = IngredienteBLL.BuscaIngredientePorId(id);
             ViewBag.Ingrediente = ingrediente;
 
             return View(ingrediente);
@@ -63,23 +60,15 @@ namespace LancheWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditaIngrediente(Ingrediente ingrediente)
         {
-
-            var dao = new IngredientesDAO();
-            dao.Atualiza(ingrediente);
-
+            IngredienteBLL.AtualizaIngrediente(ingrediente);
             return RedirectToAction("Index");
         }
 
         public ActionResult Excluir(Ingrediente ingrediente)
         {
-            var dao = new IngredientesDAO();
-            dao.Remove(ingrediente);
-
+            IngredienteBLL.RemoverIngrediente(ingrediente);
             return RedirectToAction("Index");
-
         }
-
-
 
     }
 }

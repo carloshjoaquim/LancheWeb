@@ -1,8 +1,6 @@
-﻿using LancheWeb.DAO;
-using LancheWeb.Models;
+﻿using LancheWeb.Business.BLL;
+using LancheWeb.Models.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LancheWeb.Controllers
 {
@@ -12,8 +10,7 @@ namespace LancheWeb.Controllers
         [Route("lanche", Name = "ListaLanches")]
         public ActionResult Index()
         {
-            var dao = new LanchesDAO();
-            var lanches = dao.Lista();
+            var lanches = LancheBLL.ListarLanches();
             ViewBag.Lanches = lanches;
 
             return View(lanches);
@@ -21,10 +18,8 @@ namespace LancheWeb.Controllers
 
         public ActionResult Cadastrar()
         {
-            var dao = new IngredientesDAO();
-            ViewBag.Ingredientes = dao.Lista();
+            ViewBag.Ingredientes = IngredienteBLL.ListaIngredientes();
             ViewBag.Lanches = new Lanche();
-
 
             return View();
         }
@@ -35,15 +30,12 @@ namespace LancheWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                var dao = new LanchesDAO();
-                dao.Adiciona(lanche);
-
+                LancheBLL.AdicionarLanche(lanche);
                 return Json(new { lanche.LancheId });
             }
             else
             {
                 ViewBag.Lanche = lanche;
-
                 return Json("Erro");
             }
         }
@@ -51,26 +43,7 @@ namespace LancheWeb.Controllers
 
         public ActionResult Editar(Lanche lanche)
         {
-            var ingredientes = new IngredientesDAO().Lista();
-            var ingredientesLanche = getIngredientesLanche(lanche.LancheId);
-            var listIngredientes = new List<Ingrediente>();
-
-            foreach (var item in ingredientes)
-            {
-                listIngredientes.Add(
-                                 new Ingrediente
-                                 {
-                                     IngredienteId = item.IngredienteId,
-                                     Nome = item.Nome,
-                                     Valor = item.Valor,
-                                     Quantidade = ingredientesLanche.
-                                                  FirstOrDefault(x => x.IdIngrediente == item.IngredienteId) != null ?
-                                                  ingredientesLanche.
-                                                  FirstOrDefault(x => x.IdIngrediente == item.IngredienteId).Quantidade :
-                                                  0
-                                 }
-                    );
-            }
+            var listIngredientes = LancheBLL.EditarLanche(lanche);
 
             ViewBag.Ingredientes = listIngredientes;
 
@@ -79,34 +52,15 @@ namespace LancheWeb.Controllers
 
         [HttpPut]
         public JsonResult EditaLanche(Lanche lanche)
-        {
-
-            var dao = new LanchesDAO();
-            dao.Atualiza(lanche);
-
+        {            
+            LancheBLL.AtualizarLanche(lanche);
             return Json(new { lanche.LancheId });
         }
 
         public ActionResult Excluir(Lanche lanche)
         {
-            var ingredientesLanche = getIngredientesLanche(lanche.LancheId);
-            var ildao = new IngredienteLancheDAO();
-            var lanchedao = new LanchesDAO();
-
-            foreach (var item in ingredientesLanche)
-            {
-                ildao.Remove(item);
-            }
-
-            lanchedao.Remove(lanche);
+            LancheBLL.ExcluirLanche(lanche);
             return RedirectToAction("Index");
-
-        }
-
-
-        private List<IngredienteLanche> getIngredientesLanche(int idLanche)
-        {
-            return new IngredienteLancheDAO().BuscaPorLancheId(idLanche);
         }
 
     }

@@ -1,7 +1,6 @@
-﻿using LancheWeb.DAO;
-using LancheWeb.Models;
+﻿using LancheWeb.Business.BLL;
+using LancheWeb.Models.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace LancheWeb.Controllers
@@ -12,20 +11,14 @@ namespace LancheWeb.Controllers
         [HttpPost]
         public JsonResult Incluir([FromBody] IEnumerable<IngredienteLanche> ingredientes)
         {
-
-            foreach (var il in ingredientes)
-            {
-                var dao = new IngredienteLancheDAO();
-                dao.Adiciona(il);
-            }
+            IngredienteLancheBLL.AdicionarIngredientes(ingredientes);
             return Json("OK");
-
         }
 
         [Route("detalhe/{id}", Name = "DetalheIngrediente")]
         public ActionResult Detalhe(int id)
         {
-            var ingrediente = new IngredientesDAO().BuscaPorId(id);
+            var ingrediente = IngredienteLancheBLL.BuscarPorId(id);
             ViewBag.Ingrediente = ingrediente;
 
             return View(ingrediente);
@@ -39,15 +32,7 @@ namespace LancheWeb.Controllers
         [HttpPut]
         public JsonResult EditaIngredienteLanche([FromBody]IEnumerable<IngredienteLanche> ingredientes)
         {
-
-            var dao = new IngredienteLancheDAO();
-            foreach(var item in ingredientes)
-            {
-                if (dao.BuscaPorId(item.IdIngrediente, item.IdLanche) != null)
-                    dao.Atualiza(item);
-                else
-                    dao.Adiciona(item);
-            }
+            IngredienteLancheBLL.EditarIngredienteLanche(ingredientes);
 
             return Json("OK");
         }

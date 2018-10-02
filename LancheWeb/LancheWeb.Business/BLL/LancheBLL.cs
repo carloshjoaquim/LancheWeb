@@ -8,25 +8,25 @@ namespace LancheWeb.Business.BLL
     public class LancheBLL
     {
 
-        public static IEnumerable<Lanche> ListarLanches()
+        public IEnumerable<Lanche> ListarLanches()
         {
             var dao = new LanchesDAO();
             return dao.Lista();
         }
 
-        public static void AdicionarLanche(Lanche lanche)
+        public void AdicionarLanche(Lanche lanche)
         {
             var dao = new LanchesDAO();
             dao.Adiciona(lanche);
         }
 
-        public static void AtualizarLanche(Lanche lanche)
+        public void AtualizarLanche(Lanche lanche)
         {
             var dao = new LanchesDAO();
             dao.Atualiza(lanche);
         }
 
-        public static void ExcluirLanche(Lanche lanche)
+        public void ExcluirLanche(Lanche lanche)
         {
             var ingredientesLanche = ListaIngredientesByIdLanche(lanche.LancheId);
             var ildao = new IngredienteLancheDAO();
@@ -40,7 +40,7 @@ namespace LancheWeb.Business.BLL
             lanchedao.Remove(lanche);
         }
 
-        public static List<Ingrediente> EditarLanche(Lanche lanche)
+        public List<Ingrediente> EditarLanche(Lanche lanche)
         {
             var ingredientes = new IngredientesDAO().Lista();
             var ingredientesLanche = ListaIngredientesByIdLanche(lanche.LancheId);
@@ -66,12 +66,12 @@ namespace LancheWeb.Business.BLL
             return listIngredientes;
         }
 
-        public static List<IngredienteLanche> ListaIngredientesByIdLanche(int idLanche)
+        public List<IngredienteLanche> ListaIngredientesByIdLanche(int idLanche)
         {
             return new IngredienteLancheDAO().BuscaPorLancheId(idLanche);
         }
 
-        public static IList<Lanche> ListaCompleto()
+        public IList<Lanche> ListaCompleto()
         {
             var dao = new LanchesDAO();
             return dao.ListaCompleto();

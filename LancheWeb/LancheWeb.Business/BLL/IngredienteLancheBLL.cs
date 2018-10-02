@@ -7,7 +7,7 @@ namespace LancheWeb.Business.BLL
     public class IngredienteLancheBLL
     {
 
-        public static void AdicionarIngredientes(IEnumerable<IngredienteLanche> ingredientes)
+        public void AdicionarIngredientes(IEnumerable<IngredienteLanche> ingredientes)
         {
             foreach (var il in ingredientes)
             {
@@ -16,12 +16,12 @@ namespace LancheWeb.Business.BLL
             }
         }
 
-        public static Ingrediente BuscarPorId(int id)
+        public Ingrediente BuscarPorId(int id)
         {
           return  new IngredientesDAO().BuscaPorId(id);
         }
 
-        public static void EditarIngredienteLanche(IEnumerable<IngredienteLanche> ingredientes)
+        public void EditarIngredienteLanche(IEnumerable<IngredienteLanche> ingredientes)
         {
             var dao = new IngredienteLancheDAO();
             foreach (var item in ingredientes)
@@ -33,7 +33,7 @@ namespace LancheWeb.Business.BLL
             }
         }
 
-        public static List<IngredienteLanche> BuscaPorLancheId(int id)
+        public List<IngredienteLanche> BuscaPorLancheId(int id)
         {
             var dao = new IngredienteLancheDAO();
             return dao.BuscaPorLancheId(id);

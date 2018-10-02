@@ -6,10 +6,12 @@ namespace LancheWeb.Business.BLL
 {
     public class PedidoBLL
     {
-        public static PedidoViewModel MontaResumo(Lanche lanche)
+        private readonly IngredienteLancheBLL ingredienteLancheBLL = new IngredienteLancheBLL();
+
+        public PedidoViewModel MontaResumo(Lanche lanche)
         {
             var model = new PedidoViewModel();
-            lanche.IngredienteLanches = IngredienteLancheBLL.BuscaPorLancheId(lanche.LancheId);
+            lanche.IngredienteLanches = ingredienteLancheBLL.BuscaPorLancheId(lanche.LancheId);
             model.Promocoes = VerificaPromocao(lanche);
 
             model.Nome = lanche.Nome;
@@ -20,7 +22,7 @@ namespace LancheWeb.Business.BLL
             return model;
         }
 
-        public static List<Promocao> VerificaPromocao(Lanche lanche)
+        public List<Promocao> VerificaPromocao(Lanche lanche)
         {
             var promocoes = new List<Promocao>();
 

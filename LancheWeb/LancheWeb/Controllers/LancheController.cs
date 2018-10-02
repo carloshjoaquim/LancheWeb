@@ -6,11 +6,14 @@ namespace LancheWeb.Controllers
 {
     public class LancheController : Controller
     {
+        private readonly IngredienteBLL ingredienteBLL = new IngredienteBLL();
+        private readonly LancheBLL lancheBLL = new LancheBLL();
+
         // GET: Produto
         [Route("lanche", Name = "ListaLanches")]
         public ActionResult Index()
         {
-            var lanches = LancheBLL.ListarLanches();
+            var lanches = lancheBLL.ListarLanches();
             ViewBag.Lanches = lanches;
 
             return View(lanches);
@@ -18,7 +21,7 @@ namespace LancheWeb.Controllers
 
         public ActionResult Cadastrar()
         {
-            ViewBag.Ingredientes = IngredienteBLL.ListaIngredientes();
+            ViewBag.Ingredientes = ingredienteBLL.ListaIngredientes();
             ViewBag.Lanches = new Lanche();
 
             return View();
@@ -30,7 +33,7 @@ namespace LancheWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                LancheBLL.AdicionarLanche(lanche);
+                lancheBLL.AdicionarLanche(lanche);
                 return Json(new { lanche.LancheId });
             }
             else
@@ -43,7 +46,7 @@ namespace LancheWeb.Controllers
 
         public ActionResult Editar(Lanche lanche)
         {
-            var listIngredientes = LancheBLL.EditarLanche(lanche);
+            var listIngredientes = lancheBLL.EditarLanche(lanche);
 
             ViewBag.Ingredientes = listIngredientes;
 
@@ -52,14 +55,14 @@ namespace LancheWeb.Controllers
 
         [HttpPut]
         public JsonResult EditaLanche(Lanche lanche)
-        {            
-            LancheBLL.AtualizarLanche(lanche);
+        {
+            lancheBLL.AtualizarLanche(lanche);
             return Json(new { lanche.LancheId });
         }
 
         public ActionResult Excluir(Lanche lanche)
         {
-            LancheBLL.ExcluirLanche(lanche);
+            lancheBLL.ExcluirLanche(lanche);
             return RedirectToAction("Index");
         }
 

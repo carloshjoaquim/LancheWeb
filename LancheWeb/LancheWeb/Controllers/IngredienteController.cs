@@ -6,11 +6,13 @@ namespace LancheWeb.Controllers
 {
     public class IngredienteController : Controller
     {
+        private readonly IngredienteBLL ingredienteBLL = new IngredienteBLL();
+
         // GET: Produto
         [Route("ingredientes", Name = "ListaIngredientes")]
         public ActionResult Index()
         {
-            var ingredientes = IngredienteBLL.ListaIngredientes();
+            var ingredientes = ingredienteBLL.ListaIngredientes();
             ViewBag.Ingredientes = ingredientes;
 
             return View(ingredientes);
@@ -30,7 +32,7 @@ namespace LancheWeb.Controllers
       
             if (ModelState.IsValid)
             {
-                IngredienteBLL.AdicionaIngrediente(ingrediente);
+                ingredienteBLL.AdicionaIngrediente(ingrediente);
 
                 return RedirectToAction("Index");
             }
@@ -45,7 +47,7 @@ namespace LancheWeb.Controllers
         [Route("detalhe/{id}", Name = "DetalheIngrediente")]
         public ActionResult Detalhe(int id)
         {
-            var ingrediente = IngredienteBLL.BuscaIngredientePorId(id);
+            var ingrediente = ingredienteBLL.BuscaIngredientePorId(id);
             ViewBag.Ingrediente = ingrediente;
 
             return View(ingrediente);
@@ -60,13 +62,13 @@ namespace LancheWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditaIngrediente(Ingrediente ingrediente)
         {
-            IngredienteBLL.AtualizaIngrediente(ingrediente);
+            ingredienteBLL.AtualizaIngrediente(ingrediente);
             return RedirectToAction("Index");
         }
 
         public ActionResult Excluir(Ingrediente ingrediente)
         {
-            IngredienteBLL.RemoverIngrediente(ingrediente);
+            ingredienteBLL.RemoverIngrediente(ingrediente);
             return RedirectToAction("Index");
         }
 

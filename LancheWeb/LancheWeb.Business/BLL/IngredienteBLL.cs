@@ -6,31 +6,31 @@ namespace LancheWeb.Business.BLL
 {
     public class IngredienteBLL
     {
-        public static IEnumerable<Ingrediente> ListaIngredientes()
+        public IEnumerable<Ingrediente> ListaIngredientes()
         {
             var dao = new IngredientesDAO();
             var ingredientes = dao.Lista();
             return ingredientes;
         }
 
-        public static void AdicionaIngrediente(Ingrediente ingrediente)
+        public void AdicionaIngrediente(Ingrediente ingrediente)
         {
             IngredientesDAO dao = new IngredientesDAO();
             dao.Adiciona(ingrediente);
         }
 
-        public static Ingrediente BuscaIngredientePorId(int id)
+        public Ingrediente BuscaIngredientePorId(int id)
         {
           return new IngredientesDAO().BuscaPorId(id);
         }
 
-        public static void AtualizaIngrediente(Ingrediente ingrediente)
+        public void AtualizaIngrediente(Ingrediente ingrediente)
         {
             var dao = new IngredientesDAO();
             dao.Atualiza(ingrediente);
         }
 
-        public static void RemoverIngrediente(Ingrediente ingrediente)
+        public void RemoverIngrediente(Ingrediente ingrediente)
         {
             var dao = new IngredientesDAO();
             dao.Remove(ingrediente);

@@ -7,6 +7,10 @@ namespace LancheWeb.Controllers
 {
     public class PedidoController : Controller
     {
+        private readonly IngredienteBLL ingredienteBLL = new IngredienteBLL();
+        private readonly IngredienteLancheBLL ingredienteLancheBLL = new IngredienteLancheBLL();
+        private readonly LancheBLL lancheBLL = new LancheBLL();
+        private readonly PedidoBLL pedidoBLL = new PedidoBLL();
         /*
           1. Exibir lanches do cardápio.
           2. Selecionar Lanche.
@@ -18,7 +22,7 @@ namespace LancheWeb.Controllers
         public ActionResult Index()
         {
             // 1. Exibir Cardábio de Lanches.            
-            var lanches = LancheBLL.ListaCompleto();
+            var lanches = lancheBLL.ListaCompleto();
             ViewBag.Lanches = lanches;
 
             return View(lanches);
@@ -27,14 +31,14 @@ namespace LancheWeb.Controllers
         public ActionResult DetalheLanche(Lanche lanche)
         {
             // 2.Selecionar Lanche
-            lanche.IngredienteLanches = IngredienteLancheBLL.BuscaPorLancheId(lanche.LancheId);
+            lanche.IngredienteLanches = ingredienteLancheBLL.BuscaPorLancheId(lanche.LancheId);
 
             return View(lanche);
         }
 
         public ActionResult ResumoPedido(Lanche lanche)
         {
-            var model = PedidoBLL.MontaResumo(lanche);
+            var model = pedidoBLL.MontaResumo(lanche);
 
             return View(model);
         }      
@@ -43,7 +47,7 @@ namespace LancheWeb.Controllers
         {
             // 3.Alterar ingredientes Lanche.
             ViewBag.Lanche = lanche;
-            var ingredientesDisponiveis = IngredienteBLL.ListaIngredientes().Where(i => i.Quantidade > 0);
+            var ingredientesDisponiveis = ingredienteBLL.ListaIngredientes().Where(i => i.Quantidade > 0);
 
             return View(ingredientesDisponiveis);
         }
